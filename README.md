@@ -1,2 +1,2 @@
 # MusicTracker
-This python script allows users to track their music history.
+This python script allows users to swipe on their liked songs to create new playlists.
