@@ -32,7 +32,6 @@
     "sexy drill",
     "southern hip hop",
     "uk drill",
-    "uk grime",
     "west coast hip hop"
   ],
   "rap": [
@@ -44,8 +43,7 @@
     "rage rap",
     "trap",
     "trap latino",
-    "trap soul",
-    "uk grime"
+    "trap soul"
   ],
   "jazz": [
     "acid jazz",
@@ -56,25 +54,20 @@
     "jazz funk",
     "jazz house",
     "jazz rap",
-    "neo soul",
     "soul jazz",
     "vocal jazz"
   ],
   "blues": [
     "blues",
-    "classic soul",
     "soul blues"
   ],
   "rock": [
     "alternative dance",
     "alternative metal",
     "alternative rock",
-    "alté",
-    "aor",
     "art rock",
     "baroque pop",
     "bedroom pop",
-    "big room",
     "britpop",
     "classic rock",
     "emo",
@@ -82,22 +75,16 @@
     "glam metal",
     "glam rock",
     "gothic rock",
-    "grime",
     "grunge",
     "hard rock",
     "heavy metal",
-    "indie",
-    "indie dance",
-    "indie punk",
     "indie rock",
     "math rock",
-    "melodic techno",
     "metal",
     "madchester",
     "midwest emo",
     "neo-psychedelic",
     "new wave",
-    "new jack swing",
     "nu metal",
     "post-grunge",
     "post-punk",
@@ -105,34 +92,27 @@
     "progressive rock",
     "psychedelic rock",
     "punk",
-    "quiet storm",
     "riot grrrl",
     "shoegaze",
     "slowcore",
     "soft rock",
     "surf rock",
-    "swedish pop",
     "yacht rock"
   ],
   "soul": [
-    "afro r&b",
     "afro soul",
     "classic soul",
-    "dark r&b",
     "funk",
     "funk rock",
     "funk pop",
-    "funky house",
     "motown",
     "neo soul",
     "retro soul",
     "soul",
-    "southern gothic",
     "southern soul"
   ],
   "classical": [
     "baroque",
-    "baroque pop",
     "classical",
     "classical piano",
     "orchestral"
@@ -144,32 +124,22 @@
     "folk pop",
     "folk rock",
     "indie folk",
-    "mexican indie",
     "traditional"
   ],
   "funk": [
     "funk",
     "funk carioca",
     "g-funk",
-    "g-house",
     "funk rock",
-    "funky house",
-    "bass house",
-    "bassline"
+    "funky house"
   ],
   "electronic": [
-    "acid jazz",
     "afro house",
     "bass house",
-    "bassline",
-    "bedroom pop",
     "big room",
     "breakbeat",
     "breakcore",
     "chillwave",
-    "dance",
-    "dance pop",
-    "dancehall",
     "darkwave",
     "deep house",
     "disco",
@@ -181,7 +151,6 @@
     "electro",
     "electro house",
     "electroclash",
-    "electrocumbia",
     "electronic",
     "eurodance",
     "europop",
@@ -192,36 +161,19 @@
     "house",
     "hyperpop",
     "indie dance",
-    "indie pop",
-    "indie rock",
-    "indie soul",
-    "indie r&b",
-    "j-pop",
-    "jangle pop",
-    "k-rap",
-    "khaleeji",
     "lo-fi",
     "lo-fi beats",
-    "lo-fi house",
-    "lo-fi indie",
-    "madchester",
-    "math rock",
     "melodic house",
     "melodic techno",
     "moombahton",
     "nightcore",
     "nu disco",
-    "pop",
-    "pop punk",
-    "progressive house"
+    "progressive house",
+    "tech house",
+    "techno",
+    "tropical house"
   ],
   "latin": [
-    "afrobeat",
-    "afrobeats",
-    "afropiano",
-    "afropop",
-    "afroswing",
-    "azonto",
     "banda",
     "bolero",
     "bossa nova",
@@ -247,7 +199,6 @@
     "samba",
     "sierreño",
     "tejano",
-    "tropical house",
     "urbano latino"
   ],
   "r&b": [
@@ -255,7 +206,6 @@
     "alternative r&b",
     "dark r&b",
     "indie r&b",
-    "neo soul",
     "r&b",
     "uk r&b"
   ],
@@ -296,9 +246,28 @@
     "swedish pop"
   ],
   "indie": [
-
+    "indie",
+    "indie folk",
+    "indie pop",
+    "indie rock",
+    "indie r&b",
+    "indie dance"
   ],
   "theatre": [
-    
+    "broadway",
+    "show tunes",
+    "stage musical"
+  ],
+  "dance": [
+    "club",
+    "club house",
+    "dance",
+    "dance pop",
+    "edm",
+    "house",
+    "progressive house",
+    "tech house",
+    "big room",
+    "electro house"
   ]
 }
