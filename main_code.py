@@ -1,23 +1,50 @@
+# Chase Vitale
+# Music Tinder
+
+# Import statements
 import os
 import json
 from dotenv import load_dotenv
 from tqdm import tqdm
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+import vlc
+import yt_dlp
+import time
+
+#######################################################################################
+
+# Initializations
 
 # Set up Spotify client with OAuth for user-level permissions
 load_dotenv()
+
+# Optionally delete cache to force re-login
+# if os.path.exists(".cache"):
+#    os.remove(".cache")
 
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
     client_id=os.getenv("SPOTIPY_CLIENT_ID"),
     client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
     redirect_uri=os.getenv("SPOTIPY_REDIRECT_URI"),
-    scope="user-library-read"
+    scope="user-library-read playlist-modify-private playlist-modify-public",
+    cache_path=None
 ))
 
 # Set up genre classification json
 with open('genres.json', 'r') as f:
     GENRE_CATEGORIES = json.load(f)
+
+# Create VLC instance with plugin path
+instance = vlc.Instance()
+
+# Set up URL fetching
+ydl_opts = {'format': 'bestaudio/best', 'quiet': True, 'noplaylist': True}
+ydl = yt_dlp.YoutubeDL(ydl_opts)
+
+#######################################################################################
+
+# Main functions
 
 # Fetches all of the user's liked tracks.
 # Input: sp (defined)
@@ -36,7 +63,8 @@ def get_all_liked_tracks(sp):
     offset = 0
     limit = 50
 
-    while offset < total_liked_tracks:
+    while offset < 1:
+    #while offset < total_liked_tracks:
         response = sp.current_user_saved_tracks(limit=limit, offset=offset, market=None)
         items = response['items']
         if not items:
@@ -98,6 +126,9 @@ def get_artist_ids_from_tracks(tracks):
 def get_artist_genres(sp, artist_ids):
     genres_by_artist = {}
 
+    # Initializes a progress bar for parsing artist genres
+    pbar = tqdm(total=(len(artist_ids)), desc="Fetching artist genres")
+
     # Fetch artists in batches of 50
     for i in range(0, len(artist_ids), 50):
         batch = artist_ids[i:i+50]
@@ -117,7 +148,9 @@ def get_artist_genres(sp, artist_ids):
                 'name': artist["name"],
                 'genres': main_genres
             }
+        pbar.update(len(batch))
     
+    pbar.close()
     return genres_by_artist
 
 # Creates a dictionary with liked songs and their genre
@@ -143,8 +176,12 @@ def liked_songs_genre(tracks, genres_by_artist):
         "pop": [],
         "indie": [],
         "theatre": [],
+        "dance": [],
         "unknown": []
     }
+
+    # Initializes a progress bar for parsing artist genres
+    pbar = tqdm(total=(len(tracks)), desc="Sorting songs by genre")
 
     for track in tracks:
         artist_ids = [artist["id"] for artist in track["track"]["artists"]]
@@ -156,28 +193,71 @@ def liked_songs_genre(tracks, genres_by_artist):
                     if genre in songs_genres and genre not in added_genres:
                         songs_genres[genre].append(track)
                         added_genres.add(genre)
+        pbar.update(1)
 
+    pbar.close()
     return songs_genres
 
-# Takes the dictionary of genres and songs and has the user sort the unknowns
-# Input: dictionary of songs and genres
-# Output: none
-def sort_unknowns(songs_genres):
-    unknown = songs_genres["unknown"]
-    for track in unknown:
-        print("Enter the corresponding number to place the track into the correct genre:")
-        print(
-            "1. Country\t10. Funk\n" \
-            "2. Hip-Hop\t11. Electronic\n" \
-            "3. Rap\t\t12. Latin\n" \
-            "4. Jazz\t\t13. R&B\n" \
-            "5. Blues\t14. Reggae\n" \
-            "6. Rock\t\t15. Traditional\n" \
-            "7. Soul\t\t16. Pop\n" \
-            "8. Classical\t17. Indie\n" \
-            "9. Folk\t\t18. Theater\n"
-        )
-        print("Enter anything else to stop.")
-        
+# Get the URL of the YouTube video that matches the query
+# Input: string for search
+# Output: string of URL
+def get_stream_url(query):
+    result = ydl.extract_info(f"ytsearch1:{query}", download=False)
+    return result['entries'][0]['url']
 
-get_all_liked_tracks(sp)
+# Creates a list of song names, artists, and stream urls based on the given tracks
+# Input: list of tracks
+# Output: 
+def get_all_track_info(tracks):
+    songs = []
+    for track in tracks:
+        track_info = []
+        track_uri = track["track"]["uri"]
+        track_name = track["track"]["name"]
+        artist_names = "".join(artist["name"] for artist in track["track"]["artists"])
+        search_query = f"{track_name}, {artist_names}"
+        track_url = get_stream_url(search_query)
+        track_image = track["track"]["album"]["images"][0]["url"]
+        track_info = [track_uri, track_name, artist_names, track_url, track_image]
+        songs.append(track_info)
+    return songs
+
+# Plays the audio at the URL
+# Input: string of URL
+# Output: none / audio plays
+def play_stream_url(stream_url):
+    global player
+    if player:
+        player.stop()
+    player = instance.media_player_new()
+    media = instance.media_new(stream_url)
+    player.set_media(media)
+    player.play()
+    return player
+
+# Locates and plays the audio for a specific track object
+# Input: track
+# Output: none/audio
+def play_stream_track(track):
+    track_name = track["track"]["name"]
+    artist_names = ", ".join(artist["name"] for artist in track["track"]["artists"])
+    search_query = f"{track_name} {artist_names}"
+    stream_url = get_stream_url(search_query)
+    play_stream_url(stream_url)
+
+# Creates a new playlist with given name
+# Input: sp, user_id, and playlist description
+# Output: playlist id
+def create_playlist(sp, name, description):
+    user_id = sp.current_user()["id"]
+    playlist = sp.user_playlist_create(user=user_id, name=name, public=False, description=description)
+    return playlist["id"]
+
+# Adds the given tracks to the playlist
+# Input: sp, playlist id, and track uris
+# Output: none
+def add_to_playlist(sp, playlist_id, track_uris):
+    # Spotify API allows adding max 100 tracks per request
+    for i in range(0, len(track_uris), 100):
+        batch = track_uris[i:i+100]
+        sp.playlist_add_items(playlist_id, batch)
