@@ -63,8 +63,8 @@ def get_all_liked_tracks(sp):
     offset = 0
     limit = 50
 
-    #while offset < 1:
-    while offset < total_liked_tracks:
+    while offset < 1:
+    #while offset < total_liked_tracks:
         response = sp.current_user_saved_tracks(limit=limit, offset=offset, market=None)
         items = response['items']
         if not items:

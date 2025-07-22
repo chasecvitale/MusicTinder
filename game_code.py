@@ -5,7 +5,6 @@ import requests
 from io import BytesIO
 import threading
 import random
-import time
 import main_code as mc  # Your Spotify + VLC backend logic
 
 # --- Globals ---
