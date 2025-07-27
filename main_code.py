@@ -19,10 +19,6 @@ import time
 # Set up Spotify client with OAuth for user-level permissions
 load_dotenv()
 
-# Optionally delete cache to force re-login
-# if os.path.exists(".cache"):
-#    os.remove(".cache")
-
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
     client_id=os.getenv("SPOTIPY_CLIENT_ID"),
     client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
@@ -63,8 +59,8 @@ def get_all_liked_tracks(sp):
     offset = 0
     limit = 50
 
-    while offset < 1:
-    #while offset < total_liked_tracks:
+    #while offset < 1:
+    while offset < total_liked_tracks:
         response = sp.current_user_saved_tracks(limit=limit, offset=offset, market=None)
         items = response['items']
         if not items:
@@ -261,3 +257,29 @@ def add_to_playlist(sp, playlist_id, track_uris):
     for i in range(0, len(track_uris), 100):
         batch = track_uris[i:i+100]
         sp.playlist_add_items(playlist_id, batch)
+
+# Prints all subgenres found in liked songs
+# Input: sp (Spotify client), tracks (list of liked tracks)
+# Output: none (prints to console)
+def print_liked_songs_subgenres(sp, tracks):
+    artist_ids = get_artist_ids_from_tracks(tracks)
+    all_subgenres = set()
+    
+    for i in range(0, len(artist_ids), 50):
+        batch = artist_ids[i:i+50]
+        response = sp.artists(batch)
+        
+        for artist in response["artists"]:
+            for genre in artist["genres"]:
+                all_subgenres.add(genre)
+    
+    subgenres_list = sorted(list(all_subgenres))
+    
+    print(f"\nFound {len(subgenres_list)} unique subgenres in your liked songs:")
+    print("-" * 50)
+    for subgenre in subgenres_list:
+        print(f"• {subgenre}")
+
+#######################################################################################
+
+# Optional main
