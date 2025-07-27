@@ -11,7 +11,10 @@
     "pop country",
     "red dirt",
     "texas country",
-    "traditional country"
+    "traditional country",
+    "neotraditional country",
+    "bluegrass",
+    "honky-tonk"
   ],
   "hip-hop": [
     "alternative hip hop",
@@ -43,6 +46,7 @@
     "west coast hip hop"
   ],
   "rap": [
+    "rap",
     "argentine trap",
     "emo rap",
     "k-rap",
@@ -52,7 +56,8 @@
     "rage rap",
     "trap",
     "trap latino",
-    "trap soul"
+    "trap soul",
+    "melodic rap"
   ],
   "jazz": [
     "acid jazz",
@@ -72,6 +77,7 @@
     "soul blues"
   ],
   "rock": [
+    "rock",
     "alternative dance",
     "alternative metal",
     "alternative rock",
@@ -143,7 +149,8 @@
     "folk pop",
     "folk rock",
     "indie folk",
-    "traditional"
+    "traditional",
+    "southern gothic"
   ],
   "funk": [
     "funk",
@@ -281,6 +288,7 @@
     "villancicos"
   ],
   "pop": [
+    "afrobeat",
     "afrobeats",
     "afropiano",
     "afropop",
@@ -301,7 +309,9 @@
     "pop punk",
     "pop urbaine",
     "soft pop",
-    "swedish pop"
+    "swedish pop",
+    "disco",
+    "post-disco"
   ],
   "indie": [
     "indie",

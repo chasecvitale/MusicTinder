@@ -280,6 +280,33 @@ def print_liked_songs_subgenres(sp, tracks):
     for subgenre in subgenres_list:
         print(f"• {subgenre}")
 
+# Prints the genres of one or more artists
+# Input: artist_names (string) — a comma-separated list
+# Output: none (prints to console)
+def print_artist_genres(artist_names):
+    # Split the input string into individual names
+    names = [name.strip() for name in artist_names.split(',')]
+
+    for name in names:
+        # Search for the artist
+        result = sp.search(q=name, type='artist', limit=1)
+        artists = result.get('artists', {}).get('items', [])
+
+        if not artists:
+            print(f"\nNo artist found with name: {name}")
+            continue
+
+        artist = artists[0]
+        genres = artist.get('genres', [])
+
+        print(f"\nGenres for '{artist['name']}':")
+        if genres:
+            for genre in genres:
+                print(f"- {genre}")
+        else:
+            print("No genres found.")
+
 #######################################################################################
 
 # Optional main
+# print_artist_genres("Thundercat, Steve lacy, Steve Arrington, Childish Gambino, Tyler Childers, Odyssey")
