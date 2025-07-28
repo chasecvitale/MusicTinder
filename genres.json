@@ -43,14 +43,15 @@
     "southern hip hop",
     "uk drill",
     "uk grime",
-    "west coast hip hop"
+    "jazz rap",
+    "west coast hip hop",
+    "g-funk"
   ],
   "rap": [
     "rap",
     "argentine trap",
     "emo rap",
     "k-rap",
-    "rap",
     "rap metal",
     "rap rock",
     "rage rap",
@@ -67,7 +68,6 @@
     "jazz blues",
     "jazz funk",
     "jazz house",
-    "jazz rap",
     "soul jazz",
     "swing music",
     "vocal jazz"
@@ -83,8 +83,6 @@
     "alternative rock",
     "aor",
     "art rock",
-    "baroque pop",
-    "bedroom pop",
     "britpop",
     "classic rock",
     "cold wave",
@@ -124,8 +122,6 @@
   "soul": [
     "afro soul",
     "classic soul",
-    "funk",
-    "funk rock",
     "funk pop",
     "indie soul",
     "motown",
@@ -150,12 +146,12 @@
     "folk rock",
     "indie folk",
     "traditional",
+    "singer-songwriter",
     "southern gothic"
   ],
   "funk": [
     "funk",
     "funk carioca",
-    "g-funk",
     "funk rock",
     "funky house"
   ],
@@ -168,7 +164,6 @@
     "chillwave",
     "darkwave",
     "deep house",
-    "disco",
     "disco house",
     "downtempo",
     "drum and bass",
@@ -281,14 +276,13 @@
     "comedy",
     "khaleeji",
     "mizrahi",
-    "musicals",
-    "singer-songwriter",
     "spoken word",
     "variété française",
     "villancicos"
   ],
   "pop": [
     "afrobeat",
+    "baroque pop",
     "afrobeats",
     "afropiano",
     "afropop",
@@ -326,14 +320,13 @@
   "theatre": [
     "broadway",
     "show tunes",
+    "musicals",
     "stage musical"
   ],
   "dance": [
     "club",
     "club house",
     "dance",
-    "dance pop",
-    "edm",
     "house",
     "progressive house",
     "rally house",

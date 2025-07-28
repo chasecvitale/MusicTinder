@@ -34,8 +34,20 @@ with open('genres.json', 'r') as f:
 # Create VLC instance with plugin path
 instance = vlc.Instance()
 
-# Set up URL fetching
-ydl_opts = {'format': 'bestaudio/best', 'quiet': True, 'noplaylist': True}
+# Set up URL fetching with optimized settings
+ydl_opts = {
+    'format': 'bestaudio/best',
+    'quiet': True,
+    'noplaylist': True,
+    'extract_flat': False,
+    'no_warnings': True,
+    'ignoreerrors': True,
+    'geo_bypass': True,
+    'nocheckcertificate': True,
+    'prefer_insecure': True,
+    'no_check_certificate': True,
+    'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+}
 ydl = yt_dlp.YoutubeDL(ydl_opts)
 
 #######################################################################################
@@ -309,4 +321,4 @@ def print_artist_genres(artist_names):
 #######################################################################################
 
 # Optional main
-# print_artist_genres("Thundercat, Steve lacy, Steve Arrington, Childish Gambino, Tyler Childers, Odyssey")
+# print_artist_genres("Hozier Too Sweet")
