@@ -19,10 +19,6 @@ import time
 # Set up Spotify client with OAuth for user-level permissions
 load_dotenv()
 
-# Optionally delete cache to force re-login
-# if os.path.exists(".cache"):
-#    os.remove(".cache")
-
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
     client_id=os.getenv("SPOTIPY_CLIENT_ID"),
     client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
@@ -38,8 +34,20 @@ with open('genres.json', 'r') as f:
 # Create VLC instance with plugin path
 instance = vlc.Instance()
 
-# Set up URL fetching
-ydl_opts = {'format': 'bestaudio/best', 'quiet': True, 'noplaylist': True}
+# Set up URL fetching with optimized settings
+ydl_opts = {
+    'format': 'bestaudio/best',
+    'quiet': True,
+    'noplaylist': True,
+    'extract_flat': False,
+    'no_warnings': True,
+    'ignoreerrors': True,
+    'geo_bypass': True,
+    'nocheckcertificate': True,
+    'prefer_insecure': True,
+    'no_check_certificate': True,
+    'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+}
 ydl = yt_dlp.YoutubeDL(ydl_opts)
 
 #######################################################################################
@@ -63,8 +71,8 @@ def get_all_liked_tracks(sp):
     offset = 0
     limit = 50
 
-    while offset < 1:
-    #while offset < total_liked_tracks:
+    #while offset < 1:
+    while offset < total_liked_tracks:
         response = sp.current_user_saved_tracks(limit=limit, offset=offset, market=None)
         items = response['items']
         if not items:
@@ -261,3 +269,56 @@ def add_to_playlist(sp, playlist_id, track_uris):
     for i in range(0, len(track_uris), 100):
         batch = track_uris[i:i+100]
         sp.playlist_add_items(playlist_id, batch)
+
+# Prints all subgenres found in liked songs
+# Input: sp (Spotify client), tracks (list of liked tracks)
+# Output: none (prints to console)
+def print_liked_songs_subgenres(sp, tracks):
+    artist_ids = get_artist_ids_from_tracks(tracks)
+    all_subgenres = set()
+    
+    for i in range(0, len(artist_ids), 50):
+        batch = artist_ids[i:i+50]
+        response = sp.artists(batch)
+        
+        for artist in response["artists"]:
+            for genre in artist["genres"]:
+                all_subgenres.add(genre)
+    
+    subgenres_list = sorted(list(all_subgenres))
+    
+    print(f"\nFound {len(subgenres_list)} unique subgenres in your liked songs:")
+    print("-" * 50)
+    for subgenre in subgenres_list:
+        print(f"• {subgenre}")
+
+# Prints the genres of one or more artists
+# Input: artist_names (string) — a comma-separated list
+# Output: none (prints to console)
+def print_artist_genres(artist_names):
+    # Split the input string into individual names
+    names = [name.strip() for name in artist_names.split(',')]
+
+    for name in names:
+        # Search for the artist
+        result = sp.search(q=name, type='artist', limit=1)
+        artists = result.get('artists', {}).get('items', [])
+
+        if not artists:
+            print(f"\nNo artist found with name: {name}")
+            continue
+
+        artist = artists[0]
+        genres = artist.get('genres', [])
+
+        print(f"\nGenres for '{artist['name']}':")
+        if genres:
+            for genre in genres:
+                print(f"- {genre}")
+        else:
+            print("No genres found.")
+
+#######################################################################################
+
+# Optional main
+# print_artist_genres("Hozier Too Sweet")
