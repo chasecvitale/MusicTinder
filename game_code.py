@@ -1,5 +1,5 @@
 # Chase Vitale
-# Music Tinder
+# SwipeBeats
 
 #######################################################################################
 
@@ -511,7 +511,7 @@ def create_playlist():
     if not right_swipes:
         messagebox.showinfo("No Songs", "You haven't swiped right on any songs yet!")
         return
-    playlist_name = f"Music Tinder Selection - {len(right_swipes)} songs"
+    playlist_name = f"SwipeBeats Selection - {len(right_swipes)} songs"
     track_uris = [track["track"]["uri"] for track in right_swipes]
     try:
         user_id = mc.sp.current_user()["id"]
@@ -519,7 +519,7 @@ def create_playlist():
             user=user_id,
             name=playlist_name,
             public=False,
-            description="Songs you liked in Music Tinder"
+            description="Songs you liked in SwipeBeats"
         )
         for i in range(0, len(track_uris), 100):
             mc.sp.playlist_add_items(playlist["id"], track_uris[i:i+100])
@@ -540,7 +540,7 @@ def on_close():
 
 # Initialize main window
 root = tk.Tk()
-root.title("Music Tinder")
+root.title("SwipeBeats")
 root.geometry("400x650")
 root.protocol("WM_DELETE_WINDOW", on_close)
 root.configure(bg=current_bg_color)
@@ -558,7 +558,7 @@ try:
 except tk.TclError:
     pass
 
-# Green action button style (Tinder-like)
+# Action button color
 BTN_TEXT = "white"
 
 # Configure the green button style
@@ -615,7 +615,7 @@ genre_frame.pack(fill="both", expand=True)
 
 # Title label
 tk.Label(
-    genre_frame, text="Music Tinder", font=title_font,
+    genre_frame, text="SwipeBeats", font=title_font,
     bg=current_bg_color, fg=get_readable_text_color(current_bg_color)
 ).pack(pady=10)
 
