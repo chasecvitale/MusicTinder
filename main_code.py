@@ -1,5 +1,5 @@
 # Chase Vitale
-# Music Tinder
+# SwipeBeats
 
 # Import statements
 import os
